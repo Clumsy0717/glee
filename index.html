@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GLEE — Portfolio</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="icon" type="image/png" href="images/Logo.png" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Skeleton Loader -->
+  <div id="skeleton-loader">
+    <div class="skeleton-nav"></div>
+    <div class="container-fluid px-4 px-lg-5">
+      <div class="skeleton-hero">
+        <div class="skeleton-line title"></div>
+        <div class="skeleton-line sub"></div>
+        <div class="skeleton-line btn"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Offline Screen -->
+  <div id="offline-screen">
+    <div class="error-container">
+      <h1 class="error-code">404</h1>
+      <div class="error-divider"></div>
+      <div class="error-content">
+        <h2 class="error-title">CONNECTION LOST</h2>
+        <p class="error-message">The requested connection was not found. Please check your local network cables or Wi-Fi settings.</p>
+        <button class="btn-retry" onclick="window.location.reload()"><i class="bi bi-arrow-clockwise"></i> RETRY CONNECTION</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup -->
+  <div class="popup" id="popup"></div>
+
+  <!-- Upload Modal -->
+  <div class="upload-modal-overlay" id="uploadModal">
+    <div class="upload-modal">
+      <div class="upload-modal-header">
+        <h3>Add New Project</h3>
+        <button class="upload-close-btn" onclick="closeUploadModal()"><i class="bi bi-x-lg"></i></button>
+      </div>
+      <div class="upload-drop-zone" id="dropZone">
+        <i class="bi bi-cloud-arrow-up-fill"></i>
+        <p>Drag & drop your image here<br><span>or click to browse</span></p>
+        <input type="file" id="imageUpload" accept="image/*" style="display:none" onchange="handleImageSelect(event)" />
+      </div>
+      <div class="upload-preview-wrap" id="previewWrap" style="display:none">
+        <img id="previewImg" src="" alt="Preview" />
+        <button class="upload-remove-img" onclick="removePreview()"><i class="bi bi-x"></i></button>
+      </div>
+      <input type="text" class="upload-input" id="projectTitle" placeholder="Project title..." />
+      <textarea class="upload-input upload-textarea" id="projectDesc" placeholder="Short description of your project..."></textarea>
+      <button class="upload-submit-btn" onclick="submitProject()">
+        <i class="bi bi-plus-circle"></i> Add to Projects
+      </button>
+    </div>
+  </div>
+
+  <!-- AI Chat Button -->
+  <button class="ai-chat-btn" onclick="toggleChat()"><i class="bi bi-chat-dots-fill"></i></button>
+  <div class="ai-chat-window" id="aiChatWindow">
+    <div class="ai-chat-header">
+      <span>GLEE AI Assistant</span>
+      <button onclick="toggleChat()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="ai-chat-body" id="chatBody">
+      <div class="ai-msg bot">Hi! I'm Glee's AI. Ask me about his projects, skills, or how to contact him!</div>
+    </div>
+    <div class="ai-chat-footer">
+      <input type="text" id="userInput" placeholder="Type a message..." onkeypress="handleEnter(event)">
+      <button onclick="sendMessage()"><i class="bi bi-send-fill"></i></button>
+    </div>
+  </div>
+
+  <!-- ============================
+       NAVBAR
+  ============================= -->
+  <nav class="navbar navbar-expand-lg site-nav">
+    <div class="container-fluid px-4 px-lg-5">
+      <a class="navbar-brand site-brand d-flex align-items-center gap-2" href="#">
+        <img src="images/Logo.png" alt="GLEE Logo" width="18" height="18" />
+        GLEE
+      </a>
+      <button class="navbar-toggler border-0 shadow-none" type="button"
+        data-bs-toggle="collapse" data-bs-target="#navMenu"
+        aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navMenu">
+        <ul class="navbar-nav align-items-center gap-2">
+          <li class="nav-item"><a class="nav-link nav-text-link" href="#projects">Projects</a></li>
+          <li class="nav-item"><a class="nav-link nav-text-link" href="#about">About</a></li>
+          <li class="nav-item ms-1">
+            <a class="btn-nav-pill" href="#contact">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============================
+       HERO  (scroll reveal effect)
+  ============================= -->
+  <section class="hero-section d-flex align-items-center justify-content-center">
+  <div class="container text-center">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        
+        <div class="hero-content">
+          <h1 class="hero-title appear-element">I'm Gunther Lee<br>Ordinario</h1>
+          <p class="hero-sub appear-element">Welcome to my portfolio. I design beautiful simple things.<br>And I love what I do.</p>
+          <div class="appear-element">
+            <a href="#projects" class="btn-hero-dark">Explore Projects</a>
+          </div>
+        </div>
+
+        <div class="hero-portrait-wrapper mt-5 appear-element">
+          <img src="images/Right Picture.png" alt="Gunther Lee Ordinario" class="hero-portrait-centered" />
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+  <!-- ============================
+       MY SKILLS
+  ============================= -->
+  <section class="skills-section" id="skills">
+    <div class="container-fluid px-4 px-lg-5">
+      <h2 class="skills-heading text-center">My Skills</h2>
+      <div class="row g-4 mt-3">
+
+        <div class="col-lg-4 col-md-6">
+          <div class="skill-card">
+            <div class="skill-card-top">
+              <div class="skill-avatar av-purple"><i class="bi bi-laptop"></i></div>
+              <div class="skill-badge">HTML · CSS · JS · React</div>
+            </div>
+            <h3 class="skill-name">Front End Developer</h3>
+            <p class="skill-quote">I build responsive, fast, and visually polished web interfaces using HTML, CSS, JavaScript, and modern frameworks like React and Bootstrap.</p>
+            <div class="skill-footer">
+              <span class="skill-role"><i class="bi bi-building"></i> Suite Nectar</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="skill-card">
+            <div class="skill-card-top">
+              <div class="skill-avatar av-amber"><i class="bi bi-pen"></i></div>
+              <div class="skill-badge">Figma · Prototyping</div>
+            </div>
+            <h3 class="skill-name">UI/UX Designer</h3>
+            <p class="skill-quote">I craft intuitive user experiences and clean visual designs — from wireframes and prototypes to high-fidelity mockups that users love to interact with.</p>
+            <div class="skill-footer">
+              <span class="skill-role"><i class="bi bi-building"></i> Butterflai</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-4 col-md-6">
+          <div class="skill-card">
+            <div class="skill-card-top">
+              <div class="skill-avatar av-green"><i class="bi bi-globe"></i></div>
+              <div class="skill-badge">Layout · Typography</div>
+            </div>
+            <h3 class="skill-name">Web Design</h3>
+            <p class="skill-quote">I design complete websites that balance aesthetics with functionality — combining typography, layout, and color to create memorable digital experiences.</p>
+            <div class="skill-footer">
+              <span class="skill-role"><i class="bi bi-building"></i> Cocoon & Co.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       ABOUT ME
+  ============================= -->
+  <section class="about-section" id="about">
+  <div class="container">
+    <div class="row align-items-center">
+      
+      <div class="col-lg-6 mb-5 mb-lg-0">
+        <span class="about-label">Professional Profile</span>
+        <h2 class="about-heading">About Me</h2>
+        <h3 class="about-sub-heading">IT Student & Frontend Developer</h3>
+        
+        <p class="about-body">
+          I am a dedicated **Information Technology student** with a focus on building robust, user-centric digital solutions. My expertise spans across **PHP, Python, and C++**, with a specialized passion for database management and responsive web architecture.
+        </p>
+        <p class="about-body">
+          Beyond just writing code, I thrive on solving complex logical puzzles. From developing **Hotel Management Systems** to crafting interactive logic-based games, I bridge the gap between technical functionality and elegant design.
+        </p>
+        
+        <div class="about-stats">
+          <div class="about-stat">
+            <span class="stat-num">3+</span>
+            <span class="stat-label">Core Languages</span>
+          </div>
+          <div class="about-stat">
+            <span class="stat-num">10+</span>
+            <span class="stat-label">Academic Projects</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-5 offset-lg-1">
+        <div class="about-portrait-frame">
+          <img src="images/Picture2.jpg " alt="Gunther Lee" class="about-img-single">
+          <div class="image-overlay"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+  <!-- ============================
+       MY PROJECTS  (infinite marquee + upload)
+  ============================= -->
+  <section class="projects-section" id="projects">
+    <div class="container-fluid px-4 px-lg-5 mb-4">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+        <h2 class="proj-heading-left">My Projects</h2>
+        <button class="proj-upload-btn" onclick="openUploadModal()">
+          <i class="bi bi-plus-circle"></i> Add Project
+        </button>
+      </div>
+    </div>
+
+    <!-- Infinite scrolling track -->
+    <div class="proj-marquee-wrapper">
+      <div class="proj-marquee-track" id="marqueeTrack">
+        <!-- JS renders cards here from localStorage -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================
+       MY SOCIALS
+  ============================= -->
+  <section class="socials-section" id="socials">
+  <div class="container-fluid px-4 px-lg-5">
+    <div class="row align-items-center g-5">
+      
+      <div class="col-lg-4">
+        <h2 class="socials-heading">Let's<br>Connect</h2>
+        <p class="socials-sub">I'm always open to discussing new projects, creative ideas, or opportunities to be part of your visions.</p>
+        
+        <div class="contact-info-list mt-4">
+          <div class="contact-item">
+            <i class="bi bi-envelope-at-fill"></i>
+            <span>yourname@email.com</span>
+          </div>
+          <div class="contact-item mt-2">
+            <i class="bi bi-telephone-fill"></i>
+            <span>+63 912 345 6789</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-8">
+        <div class="social-grid">
+          <a href="#" class="social-box linkedin">
+            <i class="bi bi-linkedin"></i>
+            <span>LinkedIn</span>
+          </a>
+          <a href="#" class="social-box github">
+            <i class="bi bi-github"></i>
+            <span>GitHub</span>
+          </a>
+          <a href="#" class="social-box facebook">
+            <i class="bi bi-facebook"></i>
+            <span>Facebook</span>
+          </a>
+          <a href="#" class="social-box tiktok">
+            <i class="bi bi-tiktok"></i>
+            <span>TikTok</span>
+          </a>
+          <a href="#" class="social-box instagram">
+            <i class="bi bi-instagram"></i>
+            <span>Instagram</span>
+          </a>
+          <a href="mailto:yourname@email.com" class="social-box email">
+            <i class="bi bi-send-fill"></i>
+            <span>Email Me</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+  <!-- ============================
+       FOOTER
+  ============================= -->
+  <footer class="site-footer" id="contact">
+    <div class="container-fluid px-4 px-lg-5">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+        <a href="#" class="footer-brand d-flex align-items-center gap-2 text-decoration-none">
+          <img src="images/Logo.png" alt="GLEE Logo" width="18" height="18" />
+          GLEE
+        </a>
+        <div class="footer-links">
+          <a href="#skills">Skills</a>
+          <a href="#about">About</a>
+          <a href="#projects">Projects</a>
+        </div>
+        <div class="footer-socials">
+          <a href="#"><i class="bi bi-instagram"></i></a>
+          <a href="#"><i class="bi bi-linkedin"></i></a>
+          <a href="#"><i class="bi bi-twitter-x"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
